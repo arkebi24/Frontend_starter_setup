@@ -15,11 +15,17 @@ export function calculateSum(input: string): number {
         .map(num => num.trim())
         .filter(num => num !== '');
 
-    return parsedNumbers.reduce((sum, num) => {
+    const negativeNumbers: number[] = [];
+    const sum = parsedNumbers.reduce((acc, num) => {
         const parsedNum = parseInt(num, 10);
-        if (!isNaN(parsedNum) && parsedNum >= 0) {
-            return sum + parsedNum;
-        }
-        return sum;
+        if (isNaN(parsedNum)) return acc;
+        if (parsedNum < 0) negativeNumbers.push(parsedNum);
+        return acc + (parsedNum >= 0 ? parsedNum : 0);
     }, 0);
+
+    if (negativeNumbers.length > 0) {
+        throw new Error(`negative numbers not allowed ${negativeNumbers.join(',')}`);
+    }
+
+    return sum;
 }
