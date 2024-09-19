@@ -5,9 +5,14 @@ export function calculateSum(input: string): number {
     let numbers = input;
 
     if (input.startsWith('//')) {
-        const parts = input.split('\n', 2);
-        delimiter = new RegExp(parts[0].slice(2));
-        numbers = parts[1];
+        const delimiterEnd = input.indexOf('\n');
+        const delimiterPart = input.slice(2, delimiterEnd);
+        if (delimiterPart.startsWith('[') && delimiterPart.endsWith(']')) {
+            delimiter = new RegExp(escapeRegExp(delimiterPart.slice(1, -1)), 'g');
+        } else {
+            delimiter = new RegExp(escapeRegExp(delimiterPart), 'g');
+        }
+        numbers = input.slice(delimiterEnd + 1);
     }
 
     const parsedNumbers = numbers
@@ -29,4 +34,8 @@ export function calculateSum(input: string): number {
     }
 
     return sum;
+}
+
+function escapeRegExp(string: string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
