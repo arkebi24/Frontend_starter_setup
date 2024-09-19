@@ -8,7 +8,8 @@ export function calculateSum(input: string): number {
         const delimiterEnd = input.indexOf('\n');
         const delimiterPart = input.slice(2, delimiterEnd);
         if (delimiterPart.startsWith('[') && delimiterPart.endsWith(']')) {
-            delimiter = new RegExp(escapeRegExp(delimiterPart.slice(1, -1)), 'g');
+            const delimiters = delimiterPart.slice(1, -1).split('][');
+            delimiter = new RegExp(delimiters.map(escapeRegExp).join('|'), 'g');
         } else {
             delimiter = new RegExp(escapeRegExp(delimiterPart), 'g');
         }
