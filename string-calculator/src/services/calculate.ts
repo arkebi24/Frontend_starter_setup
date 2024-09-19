@@ -2,7 +2,7 @@ export function calculateSum(input: string): number {
     if (!input.trim()) return 0;
 
     const numbers = input
-        .split(/[,\n]|\/\/.\n/)
+        .split(/[,\n]/)
         .map(num => num.trim())
         .filter(num => num !== '');
 
