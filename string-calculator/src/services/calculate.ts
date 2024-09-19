@@ -20,7 +20,8 @@ export function calculateSum(input: string): number {
         const parsedNum = parseInt(num, 10);
         if (isNaN(parsedNum)) return acc;
         if (parsedNum < 0) negativeNumbers.push(parsedNum);
-        return acc + (parsedNum >= 0 ? parsedNum : 0);
+        if (parsedNum > 1000) return acc; // Ignore numbers bigger than 1000
+        return acc + parsedNum;
     }, 0);
 
     if (negativeNumbers.length > 0) {
